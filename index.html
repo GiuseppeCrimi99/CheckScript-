@@ -1,0 +1,78 @@
+<!-- Sviluppiamo un Pokédex usando l’API https://pokeapi.co.
+Punti obbligatori:
+1. Creiamo una costante valorizzata con il nome del pokemon;
+2. Tramite una chiamata GET a
+“https://pokeapi.co/api/v2/pokemon/{POKEMON_NAME}” ricaviamo tutte le
+informazioni necessarie;
+3. Creare e fare il log di un oggetto con le informazioni principali del pokemon:
+a. name;
+b. base_experience;
+c. abilities;
+4. Ciclare le abilità e stampare solo quelle che hanno la proprietà is_hidden uguale
+a false
+5. Gestire i possibili errori della chiamata
+Punti opzionali:
+1. Creare 2 <p> in cui stampare le informazioni a e b del punto 3 e una lista <ul> in
+cui, per ogni <li>, stampare le abilità del Pokemon -->
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+
+
+
+        <script>
+            async function fetchData(){
+                const body= document.querySelector("body")
+                const response= await fetch("https://pokeapi.co/api/v2/pokemon/charmander")
+                const responseJSON= await response.json()
+                console.log(responseJSON)
+                let pokemon = {
+                    name: responseJSON.name,
+                    base_experience: responseJSON.base_experience,
+                    abilities: responseJSON.abilities   
+                }
+                   pokemon.abilities.forEach(element => {
+                    if(element.is_hidden===false){
+                            console.log(element)
+                        }else{
+                            console.error("error!")
+                        }
+                    
+                   });
+                        const p = document.createElement("p");
+                        p.innerHTML= pokemon.name
+                        body.appendChild(p)
+                        const p1= document.createElement("p")
+                        p1.innerHTML= pokemon.base_experience;
+                        body.appendChild(p1)
+                        const ul = document.createElement("ul")
+                        body.appendChild(ul)
+                        const li = document.createElement("li")
+                        pokemon.abilities.forEach(el=>{
+                            li.innerHTML=el.ability.name
+                            ul.append(li)
+                        })
+                            
+
+
+
+                        
+                      
+                
+
+               
+                
+
+            }
+            fetchData()
+        </script>
+
+
+    </body>
+    </html>
